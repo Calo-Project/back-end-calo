@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('status_vendor', ['belum verifikasi', 'sudah verifikasi', 'nonaktif'])->default('belum verifikasi');
             $table->bigInteger('user_id')->unsigned();
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

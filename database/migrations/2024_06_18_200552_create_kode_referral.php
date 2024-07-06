@@ -17,7 +17,7 @@ return new class extends Migration
             $table->tinyInteger('potongan_harga');
             $table->integer('event_id')->unsigned();
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('event_id')->references('id_event')->on('event')->onDelete('cascade');
         });

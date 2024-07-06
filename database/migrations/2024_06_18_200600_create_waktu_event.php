@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('waktu_akhir', 8);
             $table->integer('event_id')->unsigned();
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('event_id')->references('id_event')->on('event')->onDelete('cascade');
         });

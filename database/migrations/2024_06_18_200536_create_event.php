@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('vendor_id')->unsigned();
             $table->integer('kategori_event_id')->unsigned();
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('vendor_id')->references('id_vendor')->on('vendor')->onDelete('cascade');
             $table->foreign('kategori_event_id')->references('id_kategori_event')->on('kategori_event')->onDelete('cascade');
