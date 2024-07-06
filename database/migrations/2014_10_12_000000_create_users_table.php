@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('nama_pengguna');
             $table->enum('role', ['Pengguna', 'Admin', 'Mitra'])->default('Pengguna');
-            $table->string('foto_profile', 100);
+            $table->string('foto_profile', 100)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
