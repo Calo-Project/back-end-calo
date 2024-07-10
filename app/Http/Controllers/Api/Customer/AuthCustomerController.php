@@ -88,7 +88,13 @@ class AuthCustomerController extends Controller
                 'message' => 'Pendaftaran berhasil dilakukan!',
                 'data' => $data
             ]);
+        }else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Pendaftaran gagal dilakukan!'
+            ]);
         }
+
     }
 
     public function logout(Request $request){

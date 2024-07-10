@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Customer\AuthCustomerController;
+use App\Http\Controllers\Api\EventController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,10 @@ Route::middleware(['auth:sanctum', 'pengguna'])->group(function (){
     Route::post('user/logout', [AuthCustomerController::class, 'logout']);
     Route::get('user/logged/', [AuthCustomerController::class, 'logged']);
 });
+
+Route::middleware('auth:sanctum')->group(function (){
+    Route::get('event', [EventController::class, 'index']);
+    Route::post('event/create', [EventController::class, 'create']);
+    Route::post('event/update', [EventController::class, 'update']);
+});
+

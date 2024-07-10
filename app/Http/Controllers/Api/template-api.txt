@@ -1,0 +1,29 @@
+$status             = '';
+$message            = '';
+$data               = '';
+$code               = 200;
+
+try
+{
+    //code
+}
+catch (\Exception $e)
+{
+    $status         = 'failed';
+    $message        = 'Gagal. ' . $e->getMessage();
+    $code           = 400;
+}
+catch(\Illuminate\Database\QueryException $e)
+{
+    $status         = 'failed';
+    $message        = 'Gagal. '. $e->getMessage();
+    $code           = 400;
+}
+finally
+{
+    return response()->json([
+        'status'    => $status,
+        'message'   => $message,
+        'data'      => $data,
+    ], $code);
+}
