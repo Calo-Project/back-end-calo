@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('nama_pengguna');
+            $table->string('wallet')->nullable();
             $table->enum('role', ['Pengguna', 'Admin', 'Mitra'])->default('Pengguna');
             $table->string('foto_profile', 100)->nullable();
             $table->rememberToken();

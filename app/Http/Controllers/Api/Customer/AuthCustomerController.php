@@ -60,44 +60,78 @@ class AuthCustomerController extends Controller
 
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'nama_pengguna' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+        $status = '';
+        $message = '';
+        $data = '';
+        $code = 200;
 
-        if($validator->fails()) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Pendaftaran gagal dilakukan!'
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'nama_pengguna' => 'required',
+                'email' => 'required|email',
+                'password' => 'required|same:konfirmasi_password',
+                'konfirmasi_password' => 'required|same:password',
+            ], [
+                'name.required' => 'Nama wajib diisi',
+                'nama_pengguna.required' => 'Nama pengguna wajib diisi',
+                'email.required' => 'Email wajib diisi',
+                'email.email' => 'Harus berformat email',
+                'password.required' => 'Password wajib diisi',
+                'password.same' => 'Password dan konfirmasi password tidak cocok',
+                'konfirmasi_password.required' => 'Konfirmasi password wajib diisi',
+                'konfirmasi_password.same' => 'Konfirmasi password dan password tidak cocok'
             ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Gagal',
+                    'errors' => $validator->errors(),
+                    'code' => 400,
+                ], 400);
+            }
+
+            $username = $this->generateUsername($request->name);
+
+            $data = User::create([
+                'name' => $username,
+                'nama_pengguna' => $request->nama_pengguna,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'Pengguna',
+            ]);
+
+            if ($data) {
+                $token = $data->createToken('mobile', ['role:Pengguna'])->plainTextToken;
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Pendaftaran berhasil dilakukan!',
+                    'data' => $data,
+                    'token' => $token,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Pendaftaran gagal dilakukan!'
+                ]);
+            }
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal. ' . $e->getMessage();
+            $code = 400;
         }
-
-        $data = User::create([
-            'name' => $request->name,
-            'nama_pengguna' => $request->nama_pengguna,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'Pengguna',
-        ]);
-
-        if($data){
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Pendaftaran berhasil dilakukan!',
-                'data' => $data
-            ]);
-        }else{
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Pendaftaran gagal dilakukan!'
-            ]);
-        }
-
     }
 
-    public function logout(Request $request){
+    function generateUsername($nama_pengguna)
+    {
+        $username = strtolower($nama_pengguna);
+        $username = str_replace(' ', '', $username);
+        return $username;
+    }
+
+    public function logout(Request $request)
+    {
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
@@ -116,10 +150,10 @@ class AuthCustomerController extends Controller
         $user = auth()->user();
 
         if (Hash::check($request->old_password, $user->password)) {
-           return response()->json([
-            'status' => 'failed',
-            'message' => 'Harap masukkan password lama yang sesuai!'
-           ], 401);
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Harap masukkan password lama yang sesuai!'
+            ], 401);
         }
 
         $user->password = Hash::make($request->password);

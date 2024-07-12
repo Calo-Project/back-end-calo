@@ -25,7 +25,10 @@ Route::post('user/register', [AuthCustomerController::class, 'register']);
 
 Route::middleware(['auth:sanctum', 'pengguna'])->group(function (){
     Route::post('user/logout', [AuthCustomerController::class, 'logout']);
-    Route::get('user/logged/', [AuthCustomerController::class, 'logged']);
+    Route::get('user/logged', [AuthCustomerController::class, 'logged']);
+    Route::put('user/update-profile', [AuthCustomerController::class, 'update_profile']);
+    Route::put('user/update-password', [AuthCustomerController::class, 'update_password']);
+    Route::put('user/update-wallet', [AuthCustomerController::class, 'update_wallet']);
 });
 
 Route::middleware('auth:sanctum')->group(function (){

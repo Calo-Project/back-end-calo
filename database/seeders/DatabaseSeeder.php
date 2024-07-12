@@ -29,5 +29,14 @@ class DatabaseSeeder extends Seeder
             'foto_profile' => 'user.png',
             'role' => 'Admin'
         ]);
+
+        DB::table('users')->insert([
+            'name' => 'penggunacalo',
+            'email' => 'pengguna@gmail.com',
+            'nama_pengguna' => 'Pengguna Calo',
+            'password' => Hash::make("bismillah"),
+            'foto_profile' => 'user.png',
+            'role' => 'Pengguna'
+        ]);
     }
 }
