@@ -15,6 +15,10 @@ class AuthCustomerController extends Controller
         $user = auth()->user();
 
         if ($user->role === 'Pengguna') {
+            $profilePictureUrl = asset('profile/' . $user->foto_profile);
+            $user = $user->toArray();
+            $user['foto_profile_url'] = $profilePictureUrl;
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Anda login',
