@@ -24,6 +24,7 @@ class User extends Authenticatable
         'nama_pengguna',
         'role',
         'foto_profile',
+        'wallet',
     ];
 
     /**

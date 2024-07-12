@@ -37,8 +37,43 @@ class ProfileController extends Controller
 
             $input = $request->except(['_token', '_method']);
 
+            // if ($request->hasFile('foto_profile')) {
+            //     if ($user->foto_profile) {
+            //         File::delete('profile/' . $user->foto_profile);
+            //     }
+
+            //     $gambar = $request->file('foto_profile');
+            //     $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
+            //     $gambar->move('profile', $nama_gambar);
+            //     $input['foto_profile'] = $nama_gambar;
+            // } else {
+            //     unset($input['foto_profile']);
+            // }
+
+            $user->update($input);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Selamat, profile berhasil diubah!',
+                'data' => $user,
+                'code' => 200,
+            ], 200);
+        } catch (\Exception $e) {
+            $status = 'failed';
+            $message = 'Gagal. ' . $e->getMessage();
+            $code = 400;
+        }
+    }
+
+    public function update_foto(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $input = $request->except(['_method']);
+            // dd($input);
+
             if ($request->hasFile('foto_profile')) {
-                if ($user->foto_profile) {
+                if ($user->foto_profile != 'user.png') {
                     File::delete('profile/' . $user->foto_profile);
                 }
 
@@ -54,34 +89,21 @@ class ProfileController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Selamat, profile berhasil diubah!',
+                'message' => 'Selamat, foto profile berhasil diubah!',
                 'data' => $user,
                 'code' => 200,
             ], 200);
         } catch (\Exception $e) {
-            $status = 'failed';
-            $message = 'Gagal. ' . $e->getMessage();
-            $code = 400;
-        } catch (\Illuminate\Database\QueryException $e) {
-            $status = 'failed';
-            $message = 'Gagal. ' . $e->getMessage();
-            $code = 400;
-        } finally {
             return response()->json([
-                'status' => $status,
-                'message' => $message,
-                'data' => $data,
-            ], $code);
+                'status' => 'failed',
+                'message' => 'Gagal. ' . $e->getMessage(),
+                'code' => 400,
+            ], 400);
         }
     }
 
     public function update_password(Request $request)
     {
-        $status = '';
-        $message = '';
-        $data = '';
-        $code = 200;
-
         try {
             $user = auth()->user();
 
@@ -94,10 +116,11 @@ class ProfileController extends Controller
 
             if ($validator->fails()) {
                 return response()->json([
-                    $status = 'failed',
-                    $message = 'Gagal',
-                    $code = 400,
-                ]);
+                    'status' => 'failed',
+                    'message' => 'Gagal',
+                    'errors' => $validator->errors(),
+                    'code' => 400,
+                ], 400);
             }
 
             $input = $request->except(['_token', '_method']);
@@ -108,42 +131,29 @@ class ProfileController extends Controller
 
             if ($user) {
                 return response()->json([
-                    $status = 'success',
-                    $message = 'Selamat, password berhasil diubah!',
-                    $data = $user,
-                    $code = 200,
-                ]);
+                    'status' => 'success',
+                    'message' => 'Selamat, password berhasil diubah!',
+                    'data' => $user,
+                    'code' => 200,
+                ], 200);
             } else {
                 return response()->json([
-                    $status = 'failed',
-                    $message = 'Yah, password gagal diubah!',
-                    $code = 400,
-                ]);
+                    'status' => 'failed',
+                    'message' => 'Yah, password gagal diubah',
+                    'code' => 400,
+                ], 400);
             }
         } catch (\Exception $e) {
-            $status = 'failed';
-            $message = 'Gagal. ' . $e->getMessage();
-            $code = 400;
-        } catch (\Illuminate\Database\QueryException $e) {
-            $status = 'failed';
-            $message = 'Gagal. ' . $e->getMessage();
-            $code = 400;
-        } finally {
             return response()->json([
-                'status' => $status,
-                'message' => $message,
-                'data' => $data,
-            ], $code);
+                'status' => 'failed',
+                'message' => 'Gagal. ' . $e->getMessage(),
+                'code' => 400,
+            ], 400);
         }
     }
 
     public function update_wallet(Request $request)
     {
-        $status = '';
-        $message = '';
-        $data = '';
-        $code = 200;
-
         try {
             $user = auth()->user();
 
@@ -155,46 +165,37 @@ class ProfileController extends Controller
 
             if ($validator->fails()) {
                 return response()->json([
-                    $status = 'failed',
-                    $message = 'Gagal',
-                    $code = 400,
-                ]);
+                    'status' => 'failed',
+                    'message' => 'Gagal',
+                    'errors' => $validator->errors(),
+                    'code' => 400,
+                ], 400);
             }
 
             $input = $request->except(['_token', '_method']);
-
-            $input['wallet'] = bcrypt($request->wallet);
 
             $user->update($input);
 
             if ($user) {
                 return response()->json([
-                    $status = 'success',
-                    $message = 'Selamat, wallet berhasil diubah!',
-                    $data = $user,
-                    $code = 200,
-                ]);
+                    'status' => 'success',
+                    'message' => 'Selamat, wallet berhasil diubah!',
+                    'data' => $user,
+                    'code' => 200,
+                ], 200);
             } else {
                 return response()->json([
-                    $status = 'failed',
-                    $message = 'Yah, wallet gagal diubah!',
-                    $code = 400,
-                ]);
+                    'status' => 'failed',
+                    'message' => 'Yah, wallet gagal diubah',
+                    'code' => 400,
+                ], 400);
             }
         } catch (\Exception $e) {
-            $status = 'failed';
-            $message = 'Gagal. ' . $e->getMessage();
-            $code = 400;
-        } catch (\Illuminate\Database\QueryException $e) {
-            $status = 'failed';
-            $message = 'Gagal. ' . $e->getMessage();
-            $code = 400;
-        } finally {
             return response()->json([
-                'status' => $status,
-                'message' => $message,
-                'data' => $data,
-            ], $code);
+                'status' => 'failed',
+                'message' => 'Gagal. ' . $e->getMessage(),
+                'code' => 400,
+            ], 400);
         }
     }
 }
