@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Customer\AuthCustomerController;
 use App\Http\Controllers\Api\Customer\ProfileController;
 use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\RegionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,3 +40,10 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('event/update', [EventController::class, 'update']);
 });
 
+Route::get('/provinsi', [RegionController::class, 'provinsi']);
+Route::get('/kota-kabupaten', [RegionController::class, 'kotakab']);
+Route::get('/kecamatan', [RegionController::class, 'kecamatan']);
+Route::get('/kelurahan', [RegionController::class, 'kelurahan']);
+Route::get('/kota-kabupaten/{id}', [RegionController::class, 'detailKotakab']);
+Route::get('/kecamatan/{id}', [RegionController::class, 'detailKecamatan']);
+Route::get('/kelurahan/{id}', [RegionController::class, 'detailKelurahan']);

@@ -38,5 +38,8 @@ class DatabaseSeeder extends Seeder
             'foto_profile' => 'user.png',
             'role' => 'Pengguna'
         ]);
+
+        $this->call(IndoRegionSeeder::class);
+
     }
 }
