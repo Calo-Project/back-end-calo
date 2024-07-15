@@ -21,23 +21,23 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        DB::table('users')->insert([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'nama_pengguna' => 'Superadmin',
-            'password' => Hash::make("bismillah"),
-            'foto_profile' => 'user.png',
-            'role' => 'Admin'
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => 'admin',
+        //     'email' => 'admin@gmail.com',
+        //     'nama_pengguna' => 'Superadmin',
+        //     'password' => Hash::make("bismillah"),
+        //     'foto_profile' => 'user.png',
+        //     'role' => 'Admin'
+        // ]);
 
-        DB::table('users')->insert([
-            'name' => 'penggunacalo',
-            'email' => 'pengguna@gmail.com',
-            'nama_pengguna' => 'Pengguna Calo',
-            'password' => Hash::make("bismillah"),
-            'foto_profile' => 'user.png',
-            'role' => 'Pengguna'
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => 'penggunacalo',
+        //     'email' => 'pengguna@gmail.com',
+        //     'nama_pengguna' => 'Pengguna Calo',
+        //     'password' => Hash::make("bismillah"),
+        //     'foto_profile' => 'user.png',
+        //     'role' => 'Pengguna'
+        // ]);
 
         $this->call(IndoRegionSeeder::class);
 
