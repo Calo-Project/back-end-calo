@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Partner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -55,7 +56,7 @@ class EventController extends Controller
         $code               = 200;
 
         $date = date('H-i-s');
-        $random = \Str::random(5);
+        $random = Str::random(5);
 
         try
         {
@@ -137,7 +138,7 @@ class EventController extends Controller
         $code               = 200;
 
         $date = date('H-i-s');
-        $random = \Str::random(5);
+        $random = Str::random(5);
 
         try
         {

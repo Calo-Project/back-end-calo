@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use Illuminate\Http\Request;
-use App\Models\Province;
-use App\Models\Regency;
-use App\Models\District;
-use App\Models\Village;
 
-class RegionController extends Controller
+class EventController extends Controller
 {
-    public function provinsi()
+    public function getEvent()
     {
         $status             = '';
         $message            = '';
@@ -19,8 +16,15 @@ class RegionController extends Controller
         $code               = 200;
 
         try {
-            $data = Province::all();
-
+            $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
+                            ->paginate(5);
+            if (count($data) != 0) {
+                $status = 'success';
+                $message = 'Berhasil mendapatkan data event';
+            } else {
+                $status = 'success';
+                $message = 'Data event kosong';
+            }
         } catch (\Exception $e) {
             $status         = 'failed';
             $message        = 'Gagal. ' . $e->getMessage();
@@ -38,7 +42,7 @@ class RegionController extends Controller
         }
     }
 
-    public function kotakab()
+    public function getRekomendasi()
     {
         $status             = '';
         $message            = '';
@@ -46,8 +50,16 @@ class RegionController extends Controller
         $code               = 200;
 
         try {
-            $data = Regency::all();
-
+            $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
+                            ->orderBy('tanggal', 'DESC')
+                            ->paginate(5);
+            if (count($data) != 0) {
+                $status = 'success';
+                $message = 'Berhasil mendapatkan data event';
+            } else {
+                $status = 'success';
+                $message = 'Data event kosong';
+            }
         } catch (\Exception $e) {
             $status         = 'failed';
             $message        = 'Gagal. ' . $e->getMessage();
@@ -65,7 +77,7 @@ class RegionController extends Controller
         }
     }
 
-    public function kecamatan()
+    public function getEventByDate(Request $request)
     {
         $status             = '';
         $message            = '';
@@ -73,8 +85,16 @@ class RegionController extends Controller
         $code               = 200;
 
         try {
-            $data = District::all();
-
+            $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
+                            ->where('tanggal', $request->tanggal)
+                            ->get();
+            if (count($data) != 0) {
+                $status = 'success';
+                $message = 'Berhasil mendapatkan data event';
+            } else {
+                $status = 'success';
+                $message = 'Data event kosong';
+            }
         } catch (\Exception $e) {
             $status         = 'failed';
             $message        = 'Gagal. ' . $e->getMessage();
@@ -92,7 +112,7 @@ class RegionController extends Controller
         }
     }
 
-    public function kelurahan()
+    public function getEventByName(Request $request)
     {
         $status             = '';
         $message            = '';
@@ -100,8 +120,16 @@ class RegionController extends Controller
         $code               = 200;
 
         try {
-            $data = Village::all();
-
+            $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
+                            ->where('nama_event', $request->nama)
+                            ->get();
+            if (count($data) != 0) {
+                $status = 'success';
+                $message = 'Berhasil mendapatkan data event';
+            } else {
+                $status = 'success';
+                $message = 'Data event kosong';
+            }
         } catch (\Exception $e) {
             $status         = 'failed';
             $message        = 'Gagal. ' . $e->getMessage();
@@ -119,7 +147,7 @@ class RegionController extends Controller
         }
     }
 
-    public function detailKotakab($id)
+    public function getEventByKategori(Request $request)
     {
         $status             = '';
         $message            = '';
@@ -127,8 +155,16 @@ class RegionController extends Controller
         $code               = 200;
 
         try {
-            $data = Regency::where('province_id', $id)->get();
-
+            $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
+                            ->where('nama_kategori_event', $request->kategori)
+                            ->get();
+            if (count($data) != 0) {
+                $status = 'success';
+                $message = 'Berhasil mendapatkan data event';
+            } else {
+                $status = 'success';
+                $message = 'Data event kosong';
+            }
         } catch (\Exception $e) {
             $status         = 'failed';
             $message        = 'Gagal. ' . $e->getMessage();
@@ -146,7 +182,7 @@ class RegionController extends Controller
         }
     }
 
-    public function detailKecamatan($id)
+    public function getEventByDateKategori(Request $request)
     {
         $status             = '';
         $message            = '';
@@ -154,8 +190,17 @@ class RegionController extends Controller
         $code               = 200;
 
         try {
-            $data = District::where('regency_id', $id)->get();
-
+            $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
+                            ->where('nama_kategori_event', $request->kategori)
+                            ->orWhere('tanggal', request()->tanggal)
+                            ->get();
+            if (count($data) != 0) {
+                $status = 'success';
+                $message = 'Berhasil mendapatkan data event';
+            } else {
+                $status = 'success';
+                $message = 'Data event kosong';
+            }
         } catch (\Exception $e) {
             $status         = 'failed';
             $message        = 'Gagal. ' . $e->getMessage();
@@ -173,30 +218,5 @@ class RegionController extends Controller
         }
     }
 
-    public function detailKelurahan($id)
-    {
-        $status             = '';
-        $message            = '';
-        $data               = '';
-        $code               = 200;
 
-        try {
-            $data = Village::where('district_id', $id)->get();
-
-        } catch (\Exception $e) {
-            $status         = 'failed';
-            $message        = 'Gagal. ' . $e->getMessage();
-            $code           = 400;
-        } catch (\Illuminate\Database\QueryException $e) {
-            $status         = 'failed';
-            $message        = 'Gagal. ' . $e->getMessage();
-            $code           = 400;
-        } finally {
-            return response()->json([
-                'status'    => $status,
-                'message'   => $message,
-                'data'      => $data,
-            ], $code);
-        }
-    }
 }

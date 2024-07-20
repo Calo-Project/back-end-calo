@@ -15,11 +15,7 @@ return new class extends Migration
             $table->increments('id_vendor');
             $table->string('slug');
             $table->text('deskripsi_vendor')->nullable();
-            $table->string('provinsi');
-            $table->string('kota_kabupaten');
-            $table->string('kecamatan')->nullable();
-            $table->string('kelurahan')->nullable();
-            $table->text('detail_alamat')->nullable();
+            $table->string('kota_vendor');
             $table->string('link_instagram')->nullable();
             $table->string('link_website')->nullable();
             $table->enum('status_vendor', ['belum verifikasi', 'sudah verifikasi', 'nonaktif'])->default('belum verifikasi');

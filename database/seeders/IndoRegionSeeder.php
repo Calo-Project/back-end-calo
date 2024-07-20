@@ -22,7 +22,7 @@ class IndoRegionSeeder extends Seeder
     {
         $this->call(IndoRegionProvinceSeeder::class);
         $this->call(IndoRegionRegencySeeder::class);
-        $this->call(IndoRegionDistrictSeeder::class);
-        $this->call(IndoRegionVillageSeeder::class);
+        // $this->call(IndoRegionDistrictSeeder::class);
+        // $this->call(IndoRegionVillageSeeder::class);
     }
 }

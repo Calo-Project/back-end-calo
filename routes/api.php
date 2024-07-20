@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\Api\Customer\AuthCustomerController;
 use App\Http\Controllers\Api\Customer\ProfileController;
-use App\Http\Controllers\Api\EventController;
-use App\Http\Controllers\Api\RegionController;
+use App\Http\Controllers\Api\Partner\EventController;
+use App\Http\Controllers\Api\Admin\RegionController;
+use App\Http\Controllers\Api\Main\EventController as ContentEventController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,10 +41,14 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('event/update', [EventController::class, 'update']);
 });
 
+Route::get('/getevent', [ContentEventController::class, 'getevent']);
+Route::get('/getrekomendasi', [ContentEventController::class, 'getrekomendasi']);
+Route::post('/getevent/date', [ContentEventController::class, 'geteventbydate']);
+Route::post('/getevent/nama', [ContentEventController::class, 'geteventbyname']);
+Route::post('/getevent/kategori', [ContentEventController::class, 'geteventkategori']);
+Route::post('/getevent/datekategori', [ContentEventController::class, 'geteventbydatekategori']);
+
+
 Route::get('/provinsi', [RegionController::class, 'provinsi']);
 Route::get('/kota-kabupaten', [RegionController::class, 'kotakab']);
-Route::get('/kecamatan', [RegionController::class, 'kecamatan']);
-Route::get('/kelurahan', [RegionController::class, 'kelurahan']);
 Route::get('/kota-kabupaten/{id}', [RegionController::class, 'detailKotakab']);
-Route::get('/kecamatan/{id}', [RegionController::class, 'detailKecamatan']);
-Route::get('/kelurahan/{id}', [RegionController::class, 'detailKelurahan']);
