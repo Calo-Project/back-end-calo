@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('kode_transaksi');
             $table->timestamp('waktu_transaksi')->useCurrent();
-            $table->char('is_scan');
+            $table->char('is_scan')->default('0');
             $table->bigInteger('user_id')->unsigned();
             $table->integer('event_id')->unsigned();
             $table->timestamp('created_at')->useCurrent();
