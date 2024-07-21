@@ -42,6 +42,42 @@ class EventController extends Controller
         }
     }
 
+    public function getDetailEvent($slug)
+    {
+        $status             = '';
+        $message            = '';
+        $data               = '';
+        $code               = 200;
+
+        try {
+            $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
+                            ->where('event.slug', $slug)
+                            ->first();
+            if ($data->slug != "") {
+                $status = 'success';
+                $message = 'Berhasil mendapatkan detail event';
+            } else {
+                $status = 'failed';
+                $message = 'Detail event tidak ada';
+                $code = 400;
+            }
+        } catch (\Exception $e) {
+            $status         = 'failed';
+            $message        = 'Gagal. ' . $e->getMessage();
+            $code           = 400;
+        } catch (\Illuminate\Database\QueryException $e) {
+            $status         = 'failed';
+            $message        = 'Gagal. ' . $e->getMessage();
+            $code           = 400;
+        } finally {
+            return response()->json([
+                'status'    => $status,
+                'message'   => $message,
+                'data'      => $data,
+            ], $code);
+        }
+    }
+
     public function getRekomendasi()
     {
         $status             = '';
