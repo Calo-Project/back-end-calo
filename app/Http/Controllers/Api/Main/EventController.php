@@ -87,7 +87,7 @@ class EventController extends Controller
         try {
             $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
                             ->where('tanggal', $request->tanggal)
-                            ->get();
+                            ->paginate(5);
             if (count($data) != 0) {
                 $status = 'success';
                 $message = 'Berhasil mendapatkan data event';
@@ -122,7 +122,7 @@ class EventController extends Controller
         try {
             $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
                             ->where('nama_event', $request->nama)
-                            ->get();
+                            ->paginate(5);
             if (count($data) != 0) {
                 $status = 'success';
                 $message = 'Berhasil mendapatkan data event';
@@ -157,7 +157,7 @@ class EventController extends Controller
         try {
             $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
                             ->where('nama_kategori_event', $request->kategori)
-                            ->get();
+                            ->paginate(5);
             if (count($data) != 0) {
                 $status = 'success';
                 $message = 'Berhasil mendapatkan data event';
@@ -193,7 +193,7 @@ class EventController extends Controller
             $data = Event::join('kategori_event', 'event.kategori_event_id', '=', 'kategori_event.id_kategori_event')
                             ->where('nama_kategori_event', $request->kategori)
                             ->orWhere('tanggal', request()->tanggal)
-                            ->get();
+                            ->paginate(5);
             if (count($data) != 0) {
                 $status = 'success';
                 $message = 'Berhasil mendapatkan data event';
