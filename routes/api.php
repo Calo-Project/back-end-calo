@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function (){
 });
 
 Route::get('/getevent', [ContentEventController::class, 'getevent']);
+Route::get('/getallevent', [ContentEventController::class, 'getallevent']);
 Route::get('/getdetailevent/{slug}', [ContentEventController::class, 'getdetailevent']);
 Route::get('/getrekomendasi', [ContentEventController::class, 'getrekomendasi']);
 Route::post('/getevent/date', [ContentEventController::class, 'geteventbydate']);
