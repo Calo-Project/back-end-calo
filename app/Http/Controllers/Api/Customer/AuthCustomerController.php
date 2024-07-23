@@ -71,14 +71,16 @@ class AuthCustomerController extends Controller
 
         try {
             $validator = Validator::make($request->all(), [
-                'nama_pengguna' => 'required',
-                'email' => 'required|email',
+                'nama_pengguna' => 'required|unique:users,nama_pengguna',
+                'email' => 'required|email|unique:users,email',
                 'password' => 'required|same:konfirmasi_password',
                 'konfirmasi_password' => 'required|same:password',
             ], [
                 'nama_pengguna.required' => 'Nama wajib diisi',
+                'nama_pengguna.unique' => 'Nama sudah dipakai',
                 'email.required' => 'Email wajib diisi',
                 'email.email' => 'Harus berformat email',
+                'email.unique' => 'Email sudah dipakai',
                 'password.required' => 'Password wajib diisi',
                 'password.same' => 'Password dan konfirmasi password tidak cocok',
                 'konfirmasi_password.required' => 'Konfirmasi password wajib diisi',
