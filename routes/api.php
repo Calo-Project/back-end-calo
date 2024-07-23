@@ -5,7 +5,8 @@ use App\Http\Controllers\Api\Customer\ProfileController;
 use App\Http\Controllers\Api\Partner\EventController;
 use App\Http\Controllers\Api\Admin\RegionController;
 use App\Http\Controllers\Api\Customer\TicketCustomerController;
-use App\Http\Controllers\Api\Main\EventController as ContentEventController;
+use App\Http\Controllers\api\web\AuthWebController;
+use App\Http\Controllers\Api\Web\EventController as ContentEventController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,8 +25,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+
 Route::post('user/login', [AuthCustomerController::class, 'login']);
 Route::post('user/register', [AuthCustomerController::class, 'register']);
+
+Route::post('web/login', [AuthWebController::class, 'login']);
+Route::post('web/register', [AuthWebController::class, 'register']);
 
 Route::middleware(['auth:sanctum', 'pengguna'])->group(function (){
     Route::post('user/logout', [AuthCustomerController::class, 'logout']);
@@ -37,6 +43,8 @@ Route::middleware(['auth:sanctum', 'pengguna'])->group(function (){
 });
 
 Route::middleware('auth:sanctum')->group(function (){
+    Route::post('web/logout', [AuthWebController::class, 'logout']);
+
     Route::get('event', [EventController::class, 'index']);
     Route::post('event/create', [EventController::class, 'create']);
     Route::post('event/update', [EventController::class, 'update']);
