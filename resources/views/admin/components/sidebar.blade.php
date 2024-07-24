@@ -74,5 +74,6 @@
 
       </div>
     </div>
+    @include('admin.components.footer')
   </div>
 </nav>

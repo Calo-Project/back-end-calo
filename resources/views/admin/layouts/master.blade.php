@@ -11,11 +11,10 @@
     <!-- Topnav -->
     @include('admin.components.topbar')
     <!-- Page content -->
-    <div class="container-fluid mt-2">
+    {{-- <div class="container-fluid mt-2"> --}}
       @yield('content')
       <!-- Footer -->
-      @include('admin.components.footer')
-    </div>
+    {{-- </div> --}}
   </div>
   <!-- Argon Scripts -->
   @include('admin.components.script')

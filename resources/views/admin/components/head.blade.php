@@ -17,4 +17,12 @@
   <link rel="stylesheet" href="{{asset('/backend')}}/assets/vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css">
   <!-- Argon CSS -->
   <link rel="stylesheet" href="{{asset('/backend')}}/assets/css/argon.css?v=1.1.0" type="text/css">
+  <style>
+    footer{
+        position: absolute;
+        bottom: 0;
+        padding: 0px 10px;
+        width: 100%;
+    }
+  </style>
 </head>
