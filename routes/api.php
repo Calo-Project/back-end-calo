@@ -6,7 +6,8 @@ use App\Http\Controllers\Api\Partner\EventController;
 use App\Http\Controllers\Api\Admin\RegionController;
 use App\Http\Controllers\Api\Customer\TicketCustomerController;
 use App\Http\Controllers\api\web\AuthWebController;
-use App\Http\Controllers\Api\Web\EventController as ContentEventController;
+use App\Http\Controllers\Api\Main\EventController as ContentEventController;
+use App\Http\Controllers\Api\Main\KategoriEventController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::get('event', [EventController::class, 'index']);
     Route::post('event/create', [EventController::class, 'create']);
     Route::post('event/update', [EventController::class, 'update']);
+    Route::get('/kategorievent', [KategoriEventController::class, 'getall']);
 });
 
 Route::get('/getevent', [ContentEventController::class, 'getevent']);
